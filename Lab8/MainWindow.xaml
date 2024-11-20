@@ -22,10 +22,31 @@
           VerticalAlignment="Stretch" SelectionMode="Single" 
           SelectedItem="{Binding SelectedPlayer}" />
 
+            <!--1 завдання-->
+			<Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="2" CornerRadius="5" Margin="20">
+				<StackPanel Margin="50,20,0,0" Grid.Row="1" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Top">
+
+					<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+						<TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" Text="Position:" />
+						<TextBox x:Name="PositionTextBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="100"/>
+					</StackPanel>
+
+					<StackPanel Margin="0,20,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+						<TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0" Text="Salary >:" />
+						<TextBox x:Name="Salary" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="100"/>
+					</StackPanel>
+
+					<Button Content="Search" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0" Width="100" Click="ButtonSearch_Click"/>
+
+					<StackPanel Margin="0,20,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+						<Button Name="PreviousPageButton" Content="Previous page" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="PreviousPageButton_Click"/>
+						<Button Margin="20,0,0,0" Name="NextPageButton" Content="Next page" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="NextPageButton_Click"/>
+					</StackPanel>
+				</StackPanel>
+			</Border>
 
 
-
-        <!--2 завдання-->
+			<!--2 завдання-->
         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
 
             <!-- Рамка навколо всього StackPanel -->
@@ -87,10 +108,10 @@
 
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
+        <!--<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
             <Button Content="Start transaction" Click="StartTransaction_Click" Margin="20, 0,0,0" Height="30" Width="100" />
             <Button Content="Commit" Click="CommitTransaction_Click"  Margin="20, 0,0,0" Height="30" Width="100" />
             <Button Content="Rollback" Click="RollbackTransaction_Click" Margin="20, 0,0,0" Height="30" Width="100" />
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
     </Window>

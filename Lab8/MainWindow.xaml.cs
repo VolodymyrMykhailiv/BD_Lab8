@@ -46,7 +46,106 @@ namespace Lab8
             DataGridStadia.ItemsSource = Stadia;
         }
 
-       
+        private void ButtonSearch_Click(object sender, RoutedEventArgs e)
+        {
+            string position = PositionTextBox.Text.Trim();
+            string salaryText = Salary.Text.Trim();
+
+            decimal? salary = string.IsNullOrEmpty(salaryText) ? (decimal?)null : decimal.Parse(salaryText);
+
+            Stadia.Clear();
+
+            var playersQuery = _context.Players.AsQueryable();
+
+            if (!string.IsNullOrEmpty(position))
+            {
+                playersQuery = playersQuery.Where(p => p.Position.Contains(position));
+            }
+
+            if (salary.HasValue)
+            {
+                playersQuery = playersQuery.Where(p => p.Salary > salary.Value);
+            }
+
+            // Розраховуємо кількість сторінок тільки для відфільтрованих даних
+            int totalItems = playersQuery.Count();
+            _totalPages = (int)Math.Ceiling((double)totalItems / _pageSize);
+
+            // Завантажуємо першу сторінку результатів
+            LoadPage(_currentPage);
+        }
+
+        private void LoadPage(int pageNumber)
+        {
+            Stadia.Clear();
+
+            var playersQuery = _context.Players.AsQueryable();
+
+            string position = PositionTextBox.Text.Trim();
+            string salaryText = Salary.Text.Trim();
+            decimal? salary = string.IsNullOrEmpty(salaryText) ? (decimal?)null : decimal.Parse(salaryText);
+
+            if (!string.IsNullOrEmpty(position))
+            {
+                playersQuery = playersQuery.Where(p => p.Position.Contains(position));
+            }
+
+            if (salary.HasValue)
+            {
+                playersQuery = playersQuery.Where(p => p.Salary > salary.Value);
+            }
+
+
+            var playersOnPage = playersQuery
+                .Skip((pageNumber - 1) * _pageSize)  // Пропускаємо елементи для попередніх сторінок
+                .Take(_pageSize)                      // Беремо елементи для поточної сторінки
+                .ToList();
+
+            foreach (var player in playersOnPage)
+            {
+                Stadia.Add(player);
+            }
+
+            DataGridStadia.ItemsSource = Stadia;
+
+            // Оновлюємо відображення кнопок навігації
+            UpdatePaginationButtons();
+        }
+
+        private void UpdatePaginationButtons()
+        {
+            // Відключаємо/включаємо кнопки в залежності від поточної сторінки
+            PreviousPageButton.IsEnabled = _currentPage > 1;
+            NextPageButton.IsEnabled = _currentPage < _totalPages;
+        }
+
+        private void PreviousPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Зменшуємо поточну сторінку і завантажуємо її
+            if (_currentPage > 1)
+            {
+                _currentPage--;
+                LoadPage(_currentPage);
+            }
+        }
+
+        private void NextPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Збільшуємо поточну сторінку і завантажуємо її
+            if (_currentPage < _totalPages)
+            {
+                _currentPage++;
+                LoadPage(_currentPage);
+            }
+        }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            _context.Dispose(); // Закриття контексту бази даних
+            base.OnClosing(e);
+        }
+
+
 
         /////////////////////////////////////////////////////////////////////////////////
 
@@ -207,55 +306,55 @@ namespace Lab8
             }
         }
 
-        private void StartTransaction_Click(object sender, RoutedEventArgs e)
-        {
-            if (_currentTransaction == null)
-            {
-                _currentTransaction = _context.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
-                MessageBox.Show("Транзакцію розпочато.");
-            }
-            else
-            {
-                MessageBox.Show("Транзакція вже розпочата.");
-            }
-        }
+        //private void StartTransaction_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (_currentTransaction == null)
+        //    {
+        //        _currentTransaction = _context.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
+        //        MessageBox.Show("Транзакцію розпочато.");
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Транзакція вже розпочата.");
+        //    }
+        //}
 
-        private void CommitTransaction_Click(object sender, RoutedEventArgs e)
-        {
-            if (_currentTransaction != null)
-            {
-                try
-                {
-                    _context.SaveChanges();
-                    _currentTransaction.Commit();
-                    _currentTransaction = null;
-                    MessageBox.Show("Транзакцію підтверджено.");
-                }
-                catch (Exception ex)
-                {
+        //private void CommitTransaction_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (_currentTransaction != null)
+        //    {
+        //        try
+        //        {
+        //            _context.SaveChanges();
+        //            _currentTransaction.Commit();
+        //            _currentTransaction = null;
+        //            MessageBox.Show("Транзакцію підтверджено.");
+        //        }
+        //        catch (Exception ex)
+        //        {
                     
-                    MessageBox.Show($"Помилка, блокування ресурсу іншою транзакцією: {ex.Message}");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Немає активної транзакції.");
-            }
-        }
+        //            MessageBox.Show($"Помилка, блокування ресурсу іншою транзакцією: {ex.Message}");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Немає активної транзакції.");
+        //    }
+        //}
 
-        private void RollbackTransaction_Click(object sender, RoutedEventArgs e)
-        {
-            if (_currentTransaction != null)
-            {
-                _currentTransaction.Rollback();
-                _currentTransaction = null;
-                MessageBox.Show("Транзакцію скасовано.");
-            }
-            else
-            {
-                MessageBox.Show("Немає активної транзакції.");
-            }
-        }
+        //private void RollbackTransaction_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (_currentTransaction != null)
+        //    {
+        //        _currentTransaction.Rollback();
+        //        _currentTransaction = null;
+        //        MessageBox.Show("Транзакцію скасовано.");
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Немає активної транзакції.");
+        //    }
+        //}
 
        
     }
