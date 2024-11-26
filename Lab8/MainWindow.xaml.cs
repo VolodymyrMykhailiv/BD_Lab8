@@ -212,7 +212,7 @@ namespace Lab8
         {
             Stadia.Add(player);
             _context.Players.Add(player);
-           // _context.SaveChanges();
+            _context.SaveChanges();
         }
 
         // Метод для очищення полів
@@ -254,7 +254,7 @@ namespace Lab8
                     playerToUpdate.Salary = selectedPlayer.Salary;
                     playerToUpdate.TeamId = selectedPlayer.TeamId;
 
-                  //  _context.SaveChanges();
+                   _context.SaveChanges();
 
                     MessageBox.Show($"Player {playerToUpdate.Name} {playerToUpdate.Surname} has been updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -310,7 +310,7 @@ namespace Lab8
         {
             if (_currentTransaction == null)
             {
-                _currentTransaction = _context.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
+                _currentTransaction = _context.Database.BeginTransaction(System.Data.IsolationLevel.Snapshot);
                 MessageBox.Show("Транзакцію розпочато.");
             }
             else
