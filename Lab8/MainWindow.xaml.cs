@@ -306,57 +306,57 @@ namespace Lab8
             }
         }
 
-        //private void StartTransaction_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (_currentTransaction == null)
-        //    {
-        //        _currentTransaction = _context.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
-        //        MessageBox.Show("Транзакцію розпочато.");
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Транзакція вже розпочата.");
-        //    }
-        //}
+        private void StartTransaction_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentTransaction == null)
+            {
+                _currentTransaction = _context.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
+                MessageBox.Show("Транзакцію розпочато.");
+            }
+            else
+            {
+                MessageBox.Show("Транзакція вже розпочата.");
+            }
+        }
 
-        //private void CommitTransaction_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (_currentTransaction != null)
-        //    {
-        //        try
-        //        {
-        //            _context.SaveChanges();
-        //            _currentTransaction.Commit();
-        //            _currentTransaction = null;
-        //            MessageBox.Show("Транзакцію підтверджено.");
-        //        }
-        //        catch (Exception ex)
-        //        {
-                    
-        //            MessageBox.Show($"Помилка, блокування ресурсу іншою транзакцією: {ex.Message}");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Немає активної транзакції.");
-        //    }
-        //}
+        private void CommitTransaction_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentTransaction != null)
+            {
+                try
+                {
+                    _context.SaveChanges();
+                    _currentTransaction.Commit();
+                    _currentTransaction = null;
+                    MessageBox.Show("Транзакцію підтверджено.");
+                }
+                catch (Exception ex)
+                {
 
-        //private void RollbackTransaction_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (_currentTransaction != null)
-        //    {
-        //        _currentTransaction.Rollback();
-        //        _currentTransaction = null;
-        //        MessageBox.Show("Транзакцію скасовано.");
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Немає активної транзакції.");
-        //    }
-        //}
+                    MessageBox.Show($"Помилка, блокування ресурсу іншою транзакцією: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Немає активної транзакції.");
+            }
+        }
 
-       
+        private void RollbackTransaction_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentTransaction != null)
+            {
+                _currentTransaction.Rollback();
+                _currentTransaction = null;
+                MessageBox.Show("Транзакцію скасовано.");
+            }
+            else
+            {
+                MessageBox.Show("Немає активної транзакції.");
+            }
+        }
+
+
     }
 
 

@@ -108,10 +108,10 @@
 
         </StackPanel>
 
-        <!--<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
             <Button Content="Start transaction" Click="StartTransaction_Click" Margin="20, 0,0,0" Height="30" Width="100" />
             <Button Content="Commit" Click="CommitTransaction_Click"  Margin="20, 0,0,0" Height="30" Width="100" />
             <Button Content="Rollback" Click="RollbackTransaction_Click" Margin="20, 0,0,0" Height="30" Width="100" />
-        </StackPanel>-->
+        </StackPanel>
     </Grid>
     </Window>
